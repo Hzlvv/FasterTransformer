@@ -26,6 +26,9 @@ template<typename T, typename KERNEL_PARAMS_TYPE>
 void multihead_attention_(const KERNEL_PARAMS_TYPE& params, const cudaStream_t& stream)
 {
     switch (params.hidden_size_per_head) {
+        case 16:
+            mmha_launch_kernel<T, 16, 16, KERNEL_PARAMS_TYPE>(params, stream);
+            break;
         case 32:
             mmha_launch_kernel<T, 32, 32, KERNEL_PARAMS_TYPE>(params, stream);
             break;
